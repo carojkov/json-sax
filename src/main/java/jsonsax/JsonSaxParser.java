@@ -157,11 +157,12 @@ public class JsonSaxParser {
         case '\n':
         case '\r':
         case '\t':
-        case ' ':
+        case ' ': {
           break;
-          default:{
-            break white;
-          }
+        }
+        default: {
+          break white;
+        }
       }
     }
 
@@ -242,7 +243,7 @@ public class JsonSaxParser {
           l = l * x + (c - '0');
           break;
         }
-        case '.' :{
+        case '.': {
           break;
         }
         default: {

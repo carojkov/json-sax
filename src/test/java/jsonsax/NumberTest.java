@@ -33,6 +33,24 @@ public class NumberTest {
   }
 
   @Test
+  public void testInt1() throws IOException {
+    JsonSaxParser parser = new JsonSaxParser("[1]", jsonSaxListener);
+
+    parser.parse();
+
+    Assert.assertThat(jsonSaxListener.toString(), is("[1]"));
+  }
+
+  @Test
+  public void testIntNegative1() throws IOException {
+    JsonSaxParser parser = new JsonSaxParser("[-1]", jsonSaxListener);
+
+    parser.parse();
+
+    Assert.assertThat(jsonSaxListener.toString(), is("[-1]"));
+  }
+
+  @Test
   public void testFloat0() throws IOException {
     JsonSaxParser parser = new JsonSaxParser("[0.0]", jsonSaxListener);
 
