@@ -25,4 +25,6 @@ public interface JsonSaxListener {
   void onNumber(double l);
 
   void onNumber(long l);
+
+  void onNumber(char[] buffer, int offset, int len);
 }

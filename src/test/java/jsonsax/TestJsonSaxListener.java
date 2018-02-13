@@ -89,6 +89,11 @@ public class TestJsonSaxListener implements JsonSaxListener {
     builder.append(l);
   }
 
+  @Override
+  public void onNumber(char[] buffer, int offset, int len) {
+    builder.append(buffer, offset, len);
+  }
+
   public String toString() {
     return builder.toString();
   }

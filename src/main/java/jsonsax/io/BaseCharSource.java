@@ -59,6 +59,7 @@ public abstract class BaseCharSource implements CharSource {
   @Override
   public void unread() {
     position--;
+    posChar--;
   }
 
   public boolean compareMarked(String value) {
@@ -87,6 +88,6 @@ public abstract class BaseCharSource implements CharSource {
 
   @Override
   public String location() {
-    return Long.toString(posLine + 1) + ':' + Long.toString(posChar + 1);
+    return Long.toString(posLine + 1) + ':' + Long.toString(posChar);
   }
 }

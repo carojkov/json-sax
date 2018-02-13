@@ -21,6 +21,7 @@ public class TestPass {
 
     JsonSaxParser parser = new JsonSaxParser(
         new ReaderCharSource(new FileReader("src/test/resources/pass/pass1.json")), listener);
+    parser.setNumbersAware(false);
     parser.parse();
   }
 

@@ -12,6 +12,8 @@ public class JsonSaxParser {
   private final CharSource in;
   private JsonSaxListener listener;
 
+  private boolean isNumbersAware = true;
+
   public JsonSaxParser(String json, JsonSaxListener listener) {
     this(new StringCharSource(json), listener);
   }
@@ -24,6 +26,14 @@ public class JsonSaxParser {
     Objects.requireNonNull(listener, "parameter `listener` can not be null");
     this.listener = listener;
     this.in = json;
+  }
+
+  public boolean isNumbersAware() {
+    return isNumbersAware;
+  }
+
+  public void setNumbersAware(boolean numbersAware) {
+    isNumbersAware = numbersAware;
   }
 
   public void parse() throws IOException {
@@ -94,6 +104,10 @@ public class JsonSaxParser {
 
       parseValue();
     }
+
+    if (c == -1) {
+      throw new IllegalStateException("']' expected at " + in.location());
+    }
   }
 
   private void parseObject() throws IOException {
@@ -122,9 +136,14 @@ public class JsonSaxParser {
           break;
         }
         default: {
-          throw new IllegalStateException("} expected at " + in.location());
+          throw new IllegalStateException(
+              String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
         }
       }
+    }
+
+    if (c == -1) {
+      throw new IllegalStateException("'}' expected at " + in.location());
     }
   }
 
@@ -207,12 +226,59 @@ public class JsonSaxParser {
       }
       default: {
         throw new IllegalStateException(
-            String.format("unexpected %1$d char at %2$s", c, in.location()));
+            String.format("unexpected 0x%1$X char at %2$s", c, in.location()));
       }
     }
   }
 
   private void parseNumber(int k) throws IOException {
+    if (isNumbersAware) {
+      parseNumberImpl(k);
+    } else {
+      in.unread();
+      parseNumberString();
+    }
+  }
+
+  private void parseNumberString() throws IOException {
+    in.mark();
+
+    int c;
+
+    num:
+    while ((c = in.read()) != -1) {
+      switch (c) {
+        case '-':
+        case '+':
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        case '.':
+        case 'e':
+        case 'E':
+          break;
+        default: {
+          in.unread();
+          break num;
+        }
+      }
+    }
+
+    int len = in.getPosition() - in.getMark();
+
+    listener.onNumber(in.getBuffer(), in.getMark(), len);
+
+    in.reset();
+  }
+
+  private void parseNumberImpl(int k) throws IOException {
     int sign = 1;
 
     long l;
@@ -351,7 +417,20 @@ public class JsonSaxParser {
 
     int c;
 
-    while ((c = in.read()) != -1 && c != '"') {
+    string:
+    while ((c = in.read()) != -1) {
+      switch (c) {
+        case '\\': {
+          in.read();
+          break;
+        }
+        case '"': {
+          break string;
+        }
+        default: {
+          break;
+        }
+      }
     }
 
     int len = in.getPosition() - in.getMark() - 1;
