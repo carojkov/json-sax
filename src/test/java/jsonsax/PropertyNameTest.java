@@ -63,7 +63,6 @@ public class PropertyNameTest {
     parser.parse();
 
     Assert.assertThat(listener.toString(), is(in));
-    System.out.println(listener.toString());
   }
 
   @Test
