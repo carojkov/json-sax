@@ -53,6 +53,19 @@ public class PropertyNameTest {
     Assert.assertThat(listener.toString(), is(in));
   }
 
+  @Test
+  public void parse_space() throws IOException {
+    final String in = "{'foo 2':'foo-value'}";
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+    JsonSaxParser parser = new JsonSaxParser(in.replace('\'', '"'), listener);
+
+    parser.parse();
+
+    Assert.assertThat(listener.toString(), is(in));
+  }
+
+  @Test
   public void parse_EscapedDblQuote() throws IOException {
     final String in = "{'foo\\\"':'foo-value'}";
 

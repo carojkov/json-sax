@@ -177,6 +177,7 @@ public class JsonSaxParser {
     loop:
     while ((c = in.read()) > 0) {
       switch (c) {
+        case ' ':
         case '\t':
         case '\n':
         case '\r': {
