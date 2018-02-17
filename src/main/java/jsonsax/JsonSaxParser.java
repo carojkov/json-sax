@@ -152,7 +152,20 @@ public class JsonSaxParser {
 
     int c;
 
-    while ((c = in.read()) != -1 && c != '"') {
+    string:
+    while ((c = in.read()) != -1) {
+      switch (c) {
+        case '\\': {
+          in.read();
+          break;
+        }
+        case '"': {
+          break string;
+        }
+        default: {
+          break;
+        }
+      }
     }
 
     int len = in.getPosition() - in.getMark() - 1;
@@ -161,7 +174,26 @@ public class JsonSaxParser {
 
     in.reset();
 
-    while ((c = in.read()) != -1 && c != ':') {
+    loop:
+    while ((c = in.read()) > 0) {
+      switch (c) {
+        case '\t':
+        case '\n':
+        case '\r': {
+          break;
+        }
+        case ':': {
+          break loop;
+        }
+        default: {
+          throw new IllegalStateException(
+              String.format("unexpected <EOF> at %1$s", in.location()));
+        }
+      }
+    }
+
+    if (c == -1) {
+      throw new IllegalStateException(String.format("unexpected <EOF> at %1$s", c, in.location()));
     }
 
     parseValue();
