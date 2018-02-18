@@ -146,6 +146,7 @@ public class JsonSaxParser {
 
     int c;
 
+    boolean isAfterComma = false;
     obj:
     while ((c = in.read()) != -1) {
       switch (c) {
@@ -156,14 +157,26 @@ public class JsonSaxParser {
           break;
         }
         case '}': {
+          if (isAfterComma) {
+            throw new IllegalStateException(
+                String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
+
+          }
           listener.onObjectEnd();
           break obj;
         }
         case '"': {
           parseProperty();
+          isAfterComma = false;
           break;
         }
         case ',': {
+          if (isAfterComma) {
+            throw new IllegalStateException(
+                String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
+          }
+
+          isAfterComma = true;
           break;
         }
         default: {

@@ -46,7 +46,7 @@ public class TestFailFiles {
       expectedException.expect(IllegalStateException.class);
       expectedException.expectMessage("unexpected <EOF>");
 
-     parser.parse();
+      parser.parse();
     }
   }
 
@@ -120,6 +120,66 @@ public class TestFailFiles {
 
       expectedException.expect(IllegalStateException.class);
       expectedException.expectMessage("unexpected char 0x2C at 1:26");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail8() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail8.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x5D at 1:16");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail9() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail9.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x7D at 1:22");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail10() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail10.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x22 at 1:35");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail11() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail11.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x2B at 1:26");
 
       parser.parse();
     }

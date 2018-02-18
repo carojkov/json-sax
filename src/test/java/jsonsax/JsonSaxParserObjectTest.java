@@ -223,4 +223,20 @@ public class JsonSaxParserObjectTest {
     assertThat(listener.toString(), is("{'foo':null}"));
 
   }
+
+  @Test
+  public void parse_extraComma() throws IOException {
+    String json = "{'foo':null,}";
+
+    json = json.replace('\'', '"');
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    JsonSaxParser parser = new JsonSaxParser(json, listener);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("unexpected char 0x7D at 1:13");
+
+    parser.parse();
+  }
 }
