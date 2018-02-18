@@ -52,7 +52,7 @@ public class JsonSaxParser {
       }
       default: {
         throw new IllegalStateException(
-            String.format("unexpected %1$d char at %2$s", c, in.location()));
+            String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
       }
     }
   }
@@ -106,7 +106,7 @@ public class JsonSaxParser {
     }
 
     if (c == -1) {
-      throw new IllegalStateException("']' expected at " + in.location());
+      throw new IllegalStateException("expected ']' at " + in.location());
     }
   }
 
