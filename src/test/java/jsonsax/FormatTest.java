@@ -63,7 +63,7 @@ public class FormatTest {
     JsonSaxParser parser = new JsonSaxParser("[", new TestJsonSaxListener());
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("expected ']' at 1:2");
+    expectedException.expectMessage("unexpected <EOF>");
 
     parser.parse();
   }

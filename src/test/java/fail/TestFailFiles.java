@@ -44,10 +44,9 @@ public class TestFailFiles {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("expected ']' at 1:18");
+      expectedException.expectMessage("unexpected <EOF>");
 
-      parser.parse();
-
+     parser.parse();
     }
   }
 
@@ -106,6 +105,21 @@ public class TestFailFiles {
 
       expectedException.expect(IllegalStateException.class);
       expectedException.expectMessage("unexpected char 0x2C at 1:5");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail7() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail7.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x2C at 1:26");
 
       parser.parse();
     }

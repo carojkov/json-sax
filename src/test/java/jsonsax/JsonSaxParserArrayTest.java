@@ -216,5 +216,4 @@ public class JsonSaxParserArrayTest {
 
     parser.parse();
   }
-
 }

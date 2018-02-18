@@ -55,6 +55,21 @@ public class JsonSaxParser {
             String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
       }
     }
+
+    while ((c = in.read()) != -1) {
+      switch (c) {
+        case '\n':
+        case '\r':
+        case '\t':
+        case ' ': {
+          break;
+        }
+        default: {
+          throw new IllegalStateException(
+              String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
+        }
+      }
+    }
   }
 
   private void parseArray() throws IOException {
@@ -114,8 +129,15 @@ public class JsonSaxParser {
       expectValue = false;
     }
 
-    if (c == -1) {
-      throw new IllegalStateException("expected ']' at " + in.location());
+    if (c != ']') {
+      String message;
+      if (c == -1) {
+        message = String.format("unexpected <EOF>");
+      } else {
+        message = String.format("unexpected char 0x%1$X at %2$s", c, in.location());
+      }
+
+      throw new IllegalStateException(message);
     }
   }
 
@@ -186,10 +208,10 @@ public class JsonSaxParser {
     loop:
     while ((c = in.read()) > 0) {
       switch (c) {
-        case ' ':
-        case '\t':
         case '\n':
-        case '\r': {
+        case '\r':
+        case '\t':
+        case ' ': {
           break;
         }
         case ':': {
@@ -197,13 +219,13 @@ public class JsonSaxParser {
         }
         default: {
           throw new IllegalStateException(
-              String.format("unexpected <EOF> at %1$s", in.location()));
+              String.format("unexpected 0x%1$X at %2$s", c, in.location()));
         }
       }
     }
 
     if (c == -1) {
-      throw new IllegalStateException(String.format("unexpected <EOF> at %1$s", c, in.location()));
+      throw new IllegalStateException("unexpected <EOF>");
     }
 
     parseValue();
@@ -375,10 +397,10 @@ public class JsonSaxParser {
     int c = in.read();
 
     switch (c) {
-      case ' ':
       case '\n':
       case '\r':
-      case '\t': {
+      case '\t':
+      case ' ': {
         break;
       }
       case ',':
@@ -404,10 +426,10 @@ public class JsonSaxParser {
     int c = in.read();
 
     switch (c) {
-      case ' ':
       case '\n':
       case '\r':
-      case '\t': {
+      case '\t':
+      case ' ': {
         break;
       }
       case ',':
@@ -433,10 +455,10 @@ public class JsonSaxParser {
     int c = in.read();
 
     switch (c) {
-      case ' ':
       case '\n':
       case '\r':
-      case '\t': {
+      case '\t':
+      case ' ': {
         break;
       }
       case ',':

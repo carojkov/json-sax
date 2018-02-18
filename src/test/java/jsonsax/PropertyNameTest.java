@@ -87,7 +87,7 @@ public class PropertyNameTest {
     JsonSaxParser parser = new JsonSaxParser(in.replace('\'', '"'), listener);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected <EOF> at 1:7");
+    expectedException.expectMessage("unexpected 0x22 at 1:7");
 
     parser.parse();
   }
