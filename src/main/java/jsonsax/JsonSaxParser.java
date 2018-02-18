@@ -62,6 +62,7 @@ public class JsonSaxParser {
 
     int c;
 
+    boolean expectValue = true;
     array:
     while ((c = in.read()) != -1) {
       switch (c) {
@@ -76,6 +77,12 @@ public class JsonSaxParser {
           break array;
         }
         case ',': {
+          if (expectValue) {
+            String message = String.format("unexpected char 0x%1$X at %2$s", c, in.location());
+
+            throw new IllegalStateException(message);
+          }
+
           break;
         }
         default: {
@@ -103,6 +110,8 @@ public class JsonSaxParser {
       listener.onArrayElement();
 
       parseValue();
+
+      expectValue = false;
     }
 
     if (c == -1) {
@@ -259,7 +268,7 @@ public class JsonSaxParser {
       }
       default: {
         throw new IllegalStateException(
-            String.format("unexpected 0x%1$X char at %2$s", c, in.location()));
+            String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
       }
     }
   }

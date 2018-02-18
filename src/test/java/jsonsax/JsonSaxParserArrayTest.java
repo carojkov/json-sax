@@ -18,7 +18,7 @@ public class JsonSaxParserArrayTest {
 
 
   @Test
-  public void parse_ArrayOf0() throws IOException {
+  public void arrayOf0() throws IOException {
     String json = "[]";
 
     json = json.replace('\'', '"');
@@ -34,7 +34,7 @@ public class JsonSaxParserArrayTest {
 
 
   @Test
-  public void parse_StringArrayOf1() throws IOException {
+  public void stringArrayOf1() throws IOException {
     String json = "['a']";
 
     json = json.replace('\'', '"');
@@ -49,7 +49,7 @@ public class JsonSaxParserArrayTest {
   }
 
   @Test
-  public void parse_StringArrayOf2() throws IOException {
+  public void stringArrayOf2() throws IOException {
     String json = "['a', 'b']";
 
     json = json.replace('\'', '"');
@@ -64,7 +64,7 @@ public class JsonSaxParserArrayTest {
   }
 
   @Test
-  public void parse_LongStringArrayOf2() throws IOException {
+  public void longStringArrayOf2() throws IOException {
     String json = "['sesame', 'open']";
 
     json = json.replace('\'', '"');
@@ -79,7 +79,7 @@ public class JsonSaxParserArrayTest {
   }
 
   @Test
-  public void parse_booleanArray() throws IOException {
+  public void booleanArray() throws IOException {
     String json = "[true, false]";
 
     json = json.replace('\'', '"');
@@ -94,7 +94,7 @@ public class JsonSaxParserArrayTest {
   }
 
   @Test
-  public void parse_nullArray() throws IOException {
+  public void nullArray() throws IOException {
     String json = "[true, false, null]";
 
     json = json.replace('\'', '"');
@@ -109,7 +109,7 @@ public class JsonSaxParserArrayTest {
   }
 
   @Test
-  public void parse_longArray() throws IOException {
+  public void longArray() throws IOException {
     String json = "[-1, 0, 1]";
 
     json = json.replace('\'', '"');
@@ -124,7 +124,7 @@ public class JsonSaxParserArrayTest {
   }
 
   @Test
-  public void parse_EmbedArray() throws IOException {
+  public void embedArray() throws IOException {
     String json = "[[-1, 0, 1]]";
 
     json = json.replace('\'', '"');
@@ -137,4 +137,84 @@ public class JsonSaxParserArrayTest {
 
     assertThat(listener.toString(), is("[[-1,0,1]]"));
   }
+
+  @Test
+  public void arrayWithNullElement() throws IOException {
+    String json = "[null]";
+
+    json = json.replace('\'', '"');
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    JsonSaxParser parser = new JsonSaxParser(json, listener);
+
+    parser.parse();
+
+    assertThat(listener.toString(), is("[null]"));
+  }
+
+  @Test
+  public void missingFirstValue() throws IOException {
+    String json = "[,null]";
+
+    json = json.replace('\'', '"');
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    JsonSaxParser parser = new JsonSaxParser(json, listener);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("unexpected char 0x2C at 1:2");
+
+    parser.parse();
+  }
+
+  @Test
+  public void missingLastValue() throws IOException {
+    String json = "[null,]";
+
+    json = json.replace('\'', '"');
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    JsonSaxParser parser = new JsonSaxParser(json, listener);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("unexpected char 0x5D at 1:7");
+
+    parser.parse();
+  }
+
+  @Test
+  public void missingValue() throws IOException {
+    String json = "[null,,null]";
+
+    json = json.replace('\'', '"');
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    JsonSaxParser parser = new JsonSaxParser(json, listener);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("unexpected char 0x2C at 1:7");
+
+    parser.parse();
+  }
+
+  @Test
+  public void missingValue1() throws IOException {
+    String json = "[null,,]";
+
+    json = json.replace('\'', '"');
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    JsonSaxParser parser = new JsonSaxParser(json, listener);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("unexpected char 0x2C at 1:7");
+
+    parser.parse();
+  }
+
 }

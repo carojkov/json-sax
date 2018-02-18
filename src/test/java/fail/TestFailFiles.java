@@ -51,4 +51,64 @@ public class TestFailFiles {
     }
   }
 
+  @Test
+  public void fail3() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail3.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x75 at 1:2");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail4() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail4.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x5D at 1:16");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail5() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail5.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x2C at 1:23");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail6() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail6.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x2C at 1:5");
+
+      parser.parse();
+    }
+  }
+
 }

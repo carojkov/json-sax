@@ -36,7 +36,5 @@ public class StringTest {
     parser.parse();
 
     Assert.assertThat(listener.toString(), is(in));
-
-    System.out.println(listener.toString());
   }
 }
