@@ -162,12 +162,16 @@ public class JsonSaxParser {
                 String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
 
           }
+
           listener.onObjectEnd();
+
           break obj;
         }
         case '"': {
           parseProperty();
+
           isAfterComma = false;
+
           break;
         }
         case ',': {
@@ -177,6 +181,7 @@ public class JsonSaxParser {
           }
 
           isAfterComma = true;
+
           break;
         }
         default: {
