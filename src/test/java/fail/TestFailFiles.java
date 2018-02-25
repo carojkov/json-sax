@@ -209,7 +209,7 @@ public class TestFailFiles {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("unexpected char 0x30 at 1:40");
+      expectedException.expectMessage("number at 1:40 should not start with `0`");
 
       parser.parse();
     }
@@ -224,7 +224,7 @@ public class TestFailFiles {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("unexpected char 0x2B at 1:26");
+      expectedException.expectMessage("unexpected char 0x78 at 1:28");
 
       parser.parse();
     }

@@ -472,7 +472,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x30 at 1:1");
+    expectedException.expectMessage("number at 1:2 should not start with `0`");
 
     parser.parse();
   }

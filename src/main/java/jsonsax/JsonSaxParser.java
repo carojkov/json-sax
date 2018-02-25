@@ -321,9 +321,10 @@ public class JsonSaxParser {
     in.mark();
 
     final int head = in.read();
-    in.unread();
-    boolean isZero = head == '0';
     final String headLocation = in.location();
+    in.unread();
+
+    boolean isZero = head == '0';
 
     int dotIndex = -1;
 
@@ -385,7 +386,9 @@ public class JsonSaxParser {
     } else if (c == 'E') {
 
     } else if (head == '0') {
-      unexpectedInput(head, headLocation);
+      throw new IllegalStateException(
+          String.format("number at %1$s should not start with `0`", headLocation));
+
     }
 
     xc = c;
