@@ -209,7 +209,7 @@ public class TestFailFiles {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("unexpected char 0x2B at 1:26");
+      expectedException.expectMessage("unexpected char 0x30 at 1:40");
 
       parser.parse();
     }

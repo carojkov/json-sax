@@ -51,8 +51,7 @@ public class JsonSaxParser {
         break;
       }
       default: {
-        throw new IllegalStateException(
-            String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
+        unexpectedInput(c);
       }
     }
 
@@ -65,8 +64,7 @@ public class JsonSaxParser {
           break;
         }
         default: {
-          throw new IllegalStateException(
-              String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
+          unexpectedInput(c);
         }
       }
     }
@@ -158,9 +156,7 @@ public class JsonSaxParser {
         }
         case '}': {
           if (isAfterComma) {
-            throw new IllegalStateException(
-                String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
-
+            unexpectedInput(c);
           }
 
           listener.onObjectEnd();
@@ -176,8 +172,7 @@ public class JsonSaxParser {
         }
         case ',': {
           if (isAfterComma) {
-            throw new IllegalStateException(
-                String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
+            unexpectedInput(c);
           }
 
           isAfterComma = true;
@@ -185,8 +180,7 @@ public class JsonSaxParser {
           break;
         }
         default: {
-          throw new IllegalStateException(
-              String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
+          unexpectedInput(c);
         }
       }
     }
@@ -307,8 +301,7 @@ public class JsonSaxParser {
         break;
       }
       default: {
-        throw new IllegalStateException(
-            String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
+        unexpectedInput(c);
       }
     }
   }
@@ -322,16 +315,22 @@ public class JsonSaxParser {
     }
   }
 
+  // 0 10 -1 -1e12 -1e+2 1.1 1.1e3
+  // 01 -- +10 0x2 1x ee -01
   private void parseNumberString() throws IOException {
     in.mark();
 
-    int c;
+    int xc = -1, c;
 
     num:
     while ((c = in.read()) != -1) {
       switch (c) {
         case '-':
-        case '+':
+        case '+': {
+          if (xc == -1 || xc == '+' || xc == '-') {
+            unexpectedInput(c);
+          }
+        }
         case '0':
         case '1':
         case '2':
@@ -341,7 +340,11 @@ public class JsonSaxParser {
         case '6':
         case '7':
         case '8':
-        case '9':
+        case '9': {
+          if (xc == '0') {
+            unexpectedInput(c);
+          }
+        }
         case '.':
         case 'e':
         case 'E':
@@ -351,6 +354,12 @@ public class JsonSaxParser {
           break num;
         }
       }
+
+      xc = c;
+    }
+
+    if (c == 'e') {
+      unexpectedInput(c);
     }
 
     int len = in.getPosition() - in.getMark();
@@ -358,6 +367,11 @@ public class JsonSaxParser {
     listener.onNumber(in.getBuffer(), in.getMark(), len);
 
     in.reset();
+  }
+
+  private void unexpectedInput(int c) {
+    throw new IllegalStateException(
+        String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
   }
 
   private void parseNumberImpl(int k) throws IOException {
