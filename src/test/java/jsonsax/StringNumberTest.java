@@ -33,7 +33,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2D at 1:2");
+    expectedException.expectMessage("unexpected char 0x2D at 1:3");
 
     parser.parse();
   }
@@ -44,7 +44,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2B at 1:2");
+    expectedException.expectMessage("unexpected char 0x2B at 1:3");
 
     parser.parse();
   }
@@ -55,7 +55,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2B at 1:2");
+    expectedException.expectMessage("unexpected char 0x2B at 1:3");
 
     parser.parse();
   }
@@ -66,7 +66,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2D at 1:2");
+    expectedException.expectMessage("unexpected char 0x2D at 1:3");
 
     parser.parse();
   }
@@ -188,7 +188,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x65 at 1:2");
+    expectedException.expectMessage("unexpected char 0x65 at 1:3");
 
     parser.parse();
   }
@@ -199,7 +199,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x45 at 1:2");
+    expectedException.expectMessage("unexpected char 0x45 at 1:3");
 
     parser.parse();
   }
@@ -210,7 +210,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x65 at 1:2");
+    expectedException.expectMessage("unexpected char 0x65 at 1:4");
 
     parser.parse();
   }
@@ -221,7 +221,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x65 at 1:2");
+    expectedException.expectMessage("unexpected char 0x65 at 1:4");
 
     parser.parse();
   }
@@ -232,7 +232,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x45 at 1:2");
+    expectedException.expectMessage("unexpected char 0x45 at 1:4");
 
     parser.parse();
   }
@@ -243,7 +243,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x45 at 1:2");
+    expectedException.expectMessage("unexpected char 0x45 at 1:4");
 
     parser.parse();
   }
@@ -265,7 +265,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2D at 1:4");
+    expectedException.expectMessage("unexpected char 0x2D at 1:5");
 
     parser.parse();
   }
@@ -276,7 +276,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2B at 1:4");
+    expectedException.expectMessage("unexpected char 0x2B at 1:5");
 
     parser.parse();
   }
@@ -287,7 +287,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2B at 1:4");
+    expectedException.expectMessage("unexpected char 0x2B at 1:5");
 
     parser.parse();
   }
@@ -333,16 +333,6 @@ public class StringNumberTest {
   }
 
   @Test
-  public void _1e1234567890() throws IOException {
-    JsonSaxParser parser = new JsonSaxParser("[1e1234567890]", jsonSaxListener);
-    parser.setNumbersAware(false);
-
-    parser.parse();
-
-    Assert.assertThat(jsonSaxListener.toString(), is("[1e1234567890]"));
-  }
-
-  @Test
   public void _1e1() throws IOException {
     JsonSaxParser parser = new JsonSaxParser("[1e1]", jsonSaxListener);
     parser.setNumbersAware(false);
@@ -350,6 +340,16 @@ public class StringNumberTest {
     parser.parse();
 
     Assert.assertThat(jsonSaxListener.toString(), is("[1e1]"));
+  }
+
+  @Test
+  public void _1e1234567890() throws IOException {
+    JsonSaxParser parser = new JsonSaxParser("[1e1234567890]", jsonSaxListener);
+    parser.setNumbersAware(false);
+
+    parser.parse();
+
+    Assert.assertThat(jsonSaxListener.toString(), is("[1e1234567890]"));
   }
 
   @Test
@@ -428,7 +428,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x30 at 1:2");
+    expectedException.expectMessage("unexpected char 0x5D at 1:4");
 
     parser.parse();
   }
@@ -439,7 +439,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x78 at 1:2");
+    expectedException.expectMessage("unexpected char 0x78 at 1:3");
 
     parser.parse();
   }
@@ -450,7 +450,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x30 at 1:2");
+    expectedException.expectMessage("unexpected char 0x31 at 1:3");
 
     parser.parse();
   }
