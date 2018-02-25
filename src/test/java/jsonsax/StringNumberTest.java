@@ -254,7 +254,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2D at 1:4");
+    expectedException.expectMessage("unexpected char 0x2D at 1:5");
 
     parser.parse();
   }
