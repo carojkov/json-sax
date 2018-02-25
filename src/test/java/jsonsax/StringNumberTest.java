@@ -345,6 +345,16 @@ public class StringNumberTest {
   }
 
   @Test
+  public void _102() throws IOException {
+    JsonSaxParser parser = new JsonSaxParser("[102]", jsonSaxListener);
+    parser.setNumbersAware(false);
+
+    parser.parse();
+
+    Assert.assertThat(jsonSaxListener.toString(), is("[102]"));
+  }
+
+  @Test
   public void _1e1() throws IOException {
     JsonSaxParser parser = new JsonSaxParser("[1e1]", jsonSaxListener);
     parser.setNumbersAware(false);

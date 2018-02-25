@@ -321,7 +321,14 @@ public class JsonSaxParser {
     in.mark();
 
     int xc = -1, c;
+
     int dotIndex = -1;
+
+    final int head = in.read();
+
+    in.unread();
+
+    boolean isZero = head == '0';
 
     mantissa:
     while ((c = in.read()) != -1) {
@@ -333,7 +340,9 @@ public class JsonSaxParser {
 
           break;
         }
-        case '0':
+        case '0': {
+          break;
+        }
         case '1':
         case '2':
         case '3':
@@ -343,10 +352,7 @@ public class JsonSaxParser {
         case '7':
         case '8':
         case '9': {
-          if (xc == '0' && dotIndex == -1) {
-            unexpectedInput(c);
-          }
-
+          isZero = false;
           break;
         }
         case '.': {
@@ -369,6 +375,18 @@ public class JsonSaxParser {
       }
 
       xc = c;
+    }
+
+    if (isZero) {
+
+    } else if (dotIndex > -1) {
+
+    } else if (c == 'e') {
+
+    } else if (c == 'E') {
+
+    } else if (head == '0') {
+      throw new IllegalStateException("number can not start with 0");
     }
 
     xc = c;
