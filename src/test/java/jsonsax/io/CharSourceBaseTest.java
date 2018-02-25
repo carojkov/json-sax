@@ -54,4 +54,13 @@ public abstract class CharSourceBaseTest<T extends CharSource> {
 
     in.compareMarked("0");
   }
+
+  public void pushLocation(T in) throws IOException {
+    in.read();
+    in.pushLocation();
+    in.read();
+
+    assertThat(in.popLocation(), is("1:1"));
+    assertThat(in.location(), is("1:2"));
+  }
 }

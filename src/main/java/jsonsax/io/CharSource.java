@@ -27,5 +27,7 @@ public interface CharSource {
 
   String location();
 
-  String location(int offset);
+  void pushLocation();
+
+  String popLocation();
 }

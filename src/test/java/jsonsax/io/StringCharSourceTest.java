@@ -29,6 +29,11 @@ public class StringCharSourceTest extends CharSourceBaseTest<StringCharSource> {
   }
 
   @Test
+  public void pushLocation() throws IOException {
+    pushLocation(new StringCharSource(value));
+  }
+
+  @Test
   public void toString_() throws IOException {
     StringCharSource charSource = new StringCharSource(value);
 

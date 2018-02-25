@@ -55,5 +55,4 @@ public class ReaderCharSource extends BaseCharSource implements CharSource {
 
     return buffer[position++];
   }
-
 }

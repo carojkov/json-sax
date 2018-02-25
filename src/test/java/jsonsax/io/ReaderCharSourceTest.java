@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.is;
 
 import java.io.IOException;
 import java.io.StringReader;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -88,4 +89,18 @@ public class ReaderCharSourceTest extends CharSourceBaseTest<ReaderCharSource> {
     in.read();
   }
 
+
+  @Test
+  public void pushLocation() throws IOException {
+    pushLocation(new ReaderCharSource(new StringReader(value)));
+  }
+
+  @Test
+  public void toString_() throws IOException {
+    CharSource in = new ReaderCharSource(new StringReader(value));
+
+    in.read();
+
+    Assert.assertThat(in.toString(), Matchers.is("ReaderCharSource[0:1]"));
+  }
 }

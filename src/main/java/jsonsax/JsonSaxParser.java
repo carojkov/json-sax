@@ -321,7 +321,7 @@ public class JsonSaxParser {
     in.mark();
 
     final int head = in.read();
-    final String headLocation = in.location();
+    in.pushLocation();
     in.unread();
 
     boolean isZero = head == '0';
@@ -387,8 +387,7 @@ public class JsonSaxParser {
 
     } else if (head == '0') {
       throw new IllegalStateException(
-          String.format("number at %1$s should not start with `0`", headLocation));
-
+          String.format("number at %1$s should not start with `0`", in.popLocation()));
     }
 
     xc = c;
@@ -538,9 +537,10 @@ public class JsonSaxParser {
   }
 
   private void parseTrue() throws IOException {
+    in.pushLocation();
     if (in.read() != 'r' || in.read() != 'u' || in.read() != 'e') {
       throw new IllegalStateException(
-          String.format("literal `true` expected at %1$s", in.location()));
+          String.format("literal `true` expected at %1$s", in.popLocation()));
     }
 
     int c = in.read();

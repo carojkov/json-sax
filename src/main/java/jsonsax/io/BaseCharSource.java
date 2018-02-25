@@ -12,6 +12,9 @@ public abstract class BaseCharSource implements CharSource {
   protected int position = 0;
   protected int mark = -1;
 
+  //
+  protected long xPosLine = -1;
+  protected long xPosChar = -1;
   protected long posLine = 0;
   protected long posChar = 0;
 
@@ -92,7 +95,17 @@ public abstract class BaseCharSource implements CharSource {
   }
 
   @Override
-  public String location(int offset) {
-    return Long.toString(posLine + 1) + ':' + Long.toString(posChar + offset);
+  public void pushLocation() {
+    xPosLine = posLine;
+    xPosChar = posChar;
+  }
+
+  @Override
+  public String popLocation() {
+    return Long.toString(xPosLine + 1) + ':' + Long.toString(xPosChar);
+  }
+
+  public final String toString() {
+    return this.getClass().getSimpleName() + "[" + posLine + ':' + posChar + ']';
   }
 }

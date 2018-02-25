@@ -23,9 +23,4 @@ public class StringCharSource extends BaseCharSource implements CharSource {
       return -1;
     }
   }
-
-  @Override
-  public String toString() {
-    return "StringCharSource[" + posLine + ':' + posChar + ']';
-  }
 }
