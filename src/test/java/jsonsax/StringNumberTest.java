@@ -55,7 +55,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2B at 1:3");
+    expectedException.expectMessage("unexpected char 0x2B at 1:2");
 
     parser.parse();
   }
@@ -66,7 +66,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2D at 1:3");
+    expectedException.expectMessage("unexpected char 0x2D at 1:2");
 
     parser.parse();
   }
@@ -318,9 +318,10 @@ public class StringNumberTest {
     JsonSaxParser parser = new JsonSaxParser("[+1e0]", jsonSaxListener);
     parser.setNumbersAware(false);
 
-    parser.parse();
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("unexpected char 0x2B at 1:2");
 
-    Assert.assertThat(jsonSaxListener.toString(), is("[+1e0]"));
+    parser.parse();
   }
 
   @Test
@@ -384,7 +385,7 @@ public class StringNumberTest {
   }
 
   @Test
-  public void testPositive_E() throws IOException {
+  public void _1EPlus2() throws IOException {
     JsonSaxParser parser = new JsonSaxParser("[-1E+2]", jsonSaxListener);
     parser.setNumbersAware(false);
 
