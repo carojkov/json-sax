@@ -144,7 +144,7 @@ public class JsonSaxParser {
 
     int c;
 
-    boolean isAfterComma = false;
+    boolean isFollowingComma = false;
     obj:
     while ((c = in.read()) != -1) {
       switch (c) {
@@ -155,7 +155,7 @@ public class JsonSaxParser {
           break;
         }
         case '}': {
-          if (isAfterComma) {
+          if (isFollowingComma) {
             unexpectedInput(c);
           }
 
@@ -166,16 +166,16 @@ public class JsonSaxParser {
         case '"': {
           parseProperty();
 
-          isAfterComma = false;
+          isFollowingComma = false;
 
           break;
         }
         case ',': {
-          if (isAfterComma) {
+          if (isFollowingComma) {
             unexpectedInput(c);
           }
 
-          isAfterComma = true;
+          isFollowingComma = true;
 
           break;
         }
@@ -320,15 +320,14 @@ public class JsonSaxParser {
   private void parseNumberString() throws IOException {
     in.mark();
 
-    int xc = -1, c;
+    final int head = in.read();
+    in.unread();
+    boolean isZero = head == '0';
+    final String headLocation = in.location();
 
     int dotIndex = -1;
 
-    final int head = in.read();
-
-    in.unread();
-
-    boolean isZero = head == '0';
+    int xc = -1, c;
 
     mantissa:
     while ((c = in.read()) != -1) {
@@ -386,7 +385,7 @@ public class JsonSaxParser {
     } else if (c == 'E') {
 
     } else if (head == '0') {
-      throw new IllegalStateException("number can not start with 0");
+      unexpectedInput(head, headLocation);
     }
 
     xc = c;
@@ -451,8 +450,12 @@ public class JsonSaxParser {
   }
 
   private void unexpectedInput(int c) {
+    unexpectedInput(c, in.location());
+  }
+
+  private void unexpectedInput(int c, String location) {
     throw new IllegalStateException(
-        String.format("unexpected char 0x%1$X at %2$s", c, in.location()));
+        String.format("unexpected char 0x%1$X at %2$s", c, location));
   }
 
   private void parseNumberImpl(int k) throws IOException {
