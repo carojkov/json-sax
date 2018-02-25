@@ -66,7 +66,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2D at 1:2");
+    expectedException.expectMessage("unexpected char 0x2B at 1:2");
 
     parser.parse();
   }
@@ -199,7 +199,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x65 at 1:3");
+    expectedException.expectMessage("unexpected char 0x65 at 1:2");
 
     parser.parse();
   }
@@ -210,7 +210,7 @@ public class StringNumberTest {
     parser.setNumbersAware(false);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x45 at 1:3");
+    expectedException.expectMessage("unexpected char 0x45 at 1:2");
 
     parser.parse();
   }

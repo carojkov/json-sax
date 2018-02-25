@@ -363,7 +363,6 @@ public class JsonSaxParser {
 
           break mantissa;
         default: {
-          in.unread();
 
           break mantissa;
         }
@@ -372,12 +371,22 @@ public class JsonSaxParser {
       xc = c;
     }
 
+    xc = c;
+
     if (c == 'e' || c == 'E') {
+      int sign = -1;
       exponent:
       while ((c = in.read()) != -1) {
         switch (c) {
           case '-':
-          case '+':
+          case '+': {
+            if (sign > -1) {
+              unexpectedInput(c);
+            }
+
+            sign = c;
+            break;
+          }
           case '0':
           case '1':
           case '2':
@@ -402,15 +411,19 @@ public class JsonSaxParser {
             break;
           }
           default: {
-            in.unread();
 
             break exponent;
           }
         }
-
         xc = c;
       }
     }
+
+    if (xc == 'e' || xc == 'E') {
+      unexpectedInput(c);
+    }
+
+    in.unread();
 
     int len = in.getPosition() - in.getMark();
 
