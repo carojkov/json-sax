@@ -321,15 +321,17 @@ public class JsonSaxParser {
     in.mark();
 
     int xc = -1, c;
+    int dotIndex = -1;
 
-    num:
+    mantissa:
     while ((c = in.read()) != -1) {
       switch (c) {
-        case '-':
-        case '+': {
-          if (xc == -1 || xc == '+' || xc == '-') {
+        case '-': {
+          if (xc != -1 || xc == '+' || xc == '-') {
             unexpectedInput(c);
           }
+
+          break;
         }
         case '0':
         case '1':
@@ -341,17 +343,29 @@ public class JsonSaxParser {
         case '7':
         case '8':
         case '9': {
-          if (xc == '0') {
+          if (xc == '0' && dotIndex == -1) {
             unexpectedInput(c);
           }
+
+          break;
         }
-        case '.':
+        case '.': {
+          if (dotIndex > -1) {
+            unexpectedInput(c);
+          }
+
+          dotIndex = in.getPosition();
+
+          break;
+        }
         case 'e':
         case 'E':
-          break;
+
+          break mantissa;
         default: {
           in.unread();
-          break num;
+          
+          break mantissa;
         }
       }
 

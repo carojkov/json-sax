@@ -103,6 +103,17 @@ public class StringNumberTest {
   }
 
   @Test
+  public void _0_0_0() throws IOException {
+    JsonSaxParser parser = new JsonSaxParser("[0.0.]", jsonSaxListener);
+    parser.setNumbersAware(false);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("unexpected char 0x2E at 1:5");
+
+    parser.parse();
+  }
+
+  @Test
   public void _0_00() throws IOException {
     JsonSaxParser parser = new JsonSaxParser("[0.00]", jsonSaxListener);
     parser.setNumbersAware(false);
