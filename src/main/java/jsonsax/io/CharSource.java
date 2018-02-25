@@ -26,4 +26,6 @@ public interface CharSource {
   void unread();
 
   String location();
+
+  String location(int offset);
 }

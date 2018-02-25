@@ -90,4 +90,9 @@ public abstract class BaseCharSource implements CharSource {
   public String location() {
     return Long.toString(posLine + 1) + ':' + Long.toString(posChar);
   }
+
+  @Override
+  public String location(int offset) {
+    return Long.toString(posLine + 1) + ':' + Long.toString(posChar + offset);
+  }
 }

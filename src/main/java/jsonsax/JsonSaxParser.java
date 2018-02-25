@@ -539,7 +539,8 @@ public class JsonSaxParser {
 
   private void parseTrue() throws IOException {
     if (in.read() != 'r' || in.read() != 'u' || in.read() != 'e') {
-      throw new IllegalStateException();
+      throw new IllegalStateException(
+          String.format("literal `true` expected at %1$s", in.location()));
     }
 
     int c = in.read();

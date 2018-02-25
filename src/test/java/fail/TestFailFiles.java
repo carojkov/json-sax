@@ -245,4 +245,124 @@ public class TestFailFiles {
     }
   }
 
+  @Test
+  public void fail16() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail16.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x5C at 1:2");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail17() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail17.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("xxx");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail18() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail18.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x2B at 1:26xxx");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail19() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail19.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected 0x6E at 1:18");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail20() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail20.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x3A at 1:17");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail21() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail21.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected 0x2C at 1:26");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail22() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail22.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("unexpected char 0x3A at 1:26");
+
+      parser.parse();
+    }
+  }
+
+  @Test
+  public void fail23() throws IOException {
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    try (FileReader reader = new FileReader("src/test/resources/fail/fail23.json")) {
+      JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
+      parser.setNumbersAware(false);
+
+      expectedException.expect(IllegalStateException.class);
+      expectedException.expectMessage("literal `true` expected at 1:15");
+
+      parser.parse();
+    }
+  }
+
 }
