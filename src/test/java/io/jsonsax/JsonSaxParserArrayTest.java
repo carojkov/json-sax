@@ -1,4 +1,4 @@
-package jsonsax;
+package io.jsonsax;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -11,14 +11,15 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class JsonSaxParserObjectTest {
+public class JsonSaxParserArrayTest {
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
 
+
   @Test
-  public void parse_EmtpyObject() throws IOException {
-    String json = "{}";
+  public void arrayOf0() throws IOException {
+    String json = "[]";
 
     json = json.replace('\'', '"');
 
@@ -28,12 +29,13 @@ public class JsonSaxParserObjectTest {
 
     parser.parse();
 
-    assertThat(listener.toString(), is("{}"));
+    assertThat(listener.toString(), is("[]"));
   }
 
+
   @Test
-  public void parse_propertyStringValue() throws IOException {
-    String json = "{'foo':'foo-value'}";
+  public void stringArrayOf1() throws IOException {
+    String json = "['a']";
 
     json = json.replace('\'', '"');
 
@@ -43,12 +45,12 @@ public class JsonSaxParserObjectTest {
 
     parser.parse();
 
-    assertThat(listener.toString(), is("{'foo':'foo-value'}"));
+    assertThat(listener.toString(), is("['a']"));
   }
 
   @Test
-  public void parse_propertyStringValue2() throws IOException {
-    String json = "{'foo':'foo-value','bar':'bar-value'}";
+  public void stringArrayOf2() throws IOException {
+    String json = "['a', 'b']";
 
     json = json.replace('\'', '"');
 
@@ -58,13 +60,12 @@ public class JsonSaxParserObjectTest {
 
     parser.parse();
 
-    assertThat(listener.toString(), is("{'foo':'foo-value','bar':'bar-value'}"));
-
+    assertThat(listener.toString(), is("['a','b']"));
   }
 
   @Test
-  public void parse_propertyLongValue0() throws IOException {
-    String json = "{'foo':0}";
+  public void longStringArrayOf2() throws IOException {
+    String json = "['sesame', 'open']";
 
     json = json.replace('\'', '"');
 
@@ -74,14 +75,12 @@ public class JsonSaxParserObjectTest {
 
     parser.parse();
 
-    assertThat(listener.toString(), is("{'foo':0}"));
-
-
+    assertThat(listener.toString(), is("['sesame','open']"));
   }
 
   @Test
-  public void parse_propertyLongValue1() throws IOException {
-    String json = "{'foo':1}";
+  public void booleanArray() throws IOException {
+    String json = "[true, false]";
 
     json = json.replace('\'', '"');
 
@@ -91,14 +90,12 @@ public class JsonSaxParserObjectTest {
 
     parser.parse();
 
-    assertThat(listener.toString(), is("{'foo':1}"));
-
-
+    assertThat(listener.toString(), is("[true,false]"));
   }
 
   @Test
-  public void parse_propertyLongValue1Negative() throws IOException {
-    String json = "{'foo':-1}";
+  public void nullArray() throws IOException {
+    String json = "[true, false, null]";
 
     json = json.replace('\'', '"');
 
@@ -108,14 +105,12 @@ public class JsonSaxParserObjectTest {
 
     parser.parse();
 
-    assertThat(listener.toString(), is("{'foo':-1}"));
-
-
+    assertThat(listener.toString(), is("[true,false,null]"));
   }
 
   @Test
-  public void parse_propertyLongMaxValue() throws IOException {
-    String json = "{'foo':9223372036854775807}";
+  public void longArray() throws IOException {
+    String json = "[-1, 0, 1]";
 
     json = json.replace('\'', '"');
 
@@ -125,13 +120,12 @@ public class JsonSaxParserObjectTest {
 
     parser.parse();
 
-    assertThat(listener.toString(), is("{'foo':9223372036854775807}"));
-
+    assertThat(listener.toString(), is("[-1,0,1]"));
   }
 
   @Test
-  public void parse_propertyLongMinValue() throws IOException {
-    String json = "{'foo':-9223372036854775808}";
+  public void embedArray() throws IOException {
+    String json = "[[-1, 0, 1]]";
 
     json = json.replace('\'', '"');
 
@@ -141,14 +135,12 @@ public class JsonSaxParserObjectTest {
 
     parser.parse();
 
-    assertThat(listener.toString(), is("{'foo':-9223372036854775808}"));
-
-
+    assertThat(listener.toString(), is("[[-1,0,1]]"));
   }
 
   @Test
-  public void parse_propertyLongNegativeValue() throws IOException {
-    String json = "{'foo':-1}";
+  public void arrayWithNullElement() throws IOException {
+    String json = "[null]";
 
     json = json.replace('\'', '"');
 
@@ -158,75 +150,12 @@ public class JsonSaxParserObjectTest {
 
     parser.parse();
 
-    assertThat(listener.toString(), is("{'foo':-1}"));
-
+    assertThat(listener.toString(), is("[null]"));
   }
 
   @Test
-  public void parse_propertyLongValues() throws IOException {
-    String json = "{'foo':1, 'bar':2}";
-
-    json = json.replace('\'', '"');
-
-    TestJsonSaxListener listener = new TestJsonSaxListener();
-
-    JsonSaxParser parser = new JsonSaxParser(json, listener);
-
-    parser.parse();
-
-    assertThat(listener.toString(), is("{'foo':1,'bar':2}"));
-  }
-
-  @Test
-  public void parse_propertyFalse() throws IOException {
-    String json = "{'foo':false}";
-
-    json = json.replace('\'', '"');
-
-    TestJsonSaxListener listener = new TestJsonSaxListener();
-
-    JsonSaxParser parser = new JsonSaxParser(json, listener);
-
-    parser.parse();
-
-    assertThat(listener.toString(), is("{'foo':false}"));
-  }
-
-  @Test
-  public void parse_propertyTrue() throws IOException {
-    String json = "{'foo':true}";
-
-    json = json.replace('\'', '"');
-
-    TestJsonSaxListener listener = new TestJsonSaxListener();
-
-    JsonSaxParser parser = new JsonSaxParser(json, listener);
-
-    parser.parse();
-
-    assertThat(listener.toString(), is("{'foo':true}"));
-
-  }
-
-  @Test
-  public void parse_propertyNull() throws IOException {
-    String json = "{'foo':null}";
-
-    json = json.replace('\'', '"');
-
-    TestJsonSaxListener listener = new TestJsonSaxListener();
-
-    JsonSaxParser parser = new JsonSaxParser(json, listener);
-
-    parser.parse();
-
-    assertThat(listener.toString(), is("{'foo':null}"));
-
-  }
-
-  @Test
-  public void parse_extraComma() throws IOException {
-    String json = "{'foo':null,}";
+  public void missingFirstValue() throws IOException {
+    String json = "[,null]";
 
     json = json.replace('\'', '"');
 
@@ -235,14 +164,14 @@ public class JsonSaxParserObjectTest {
     JsonSaxParser parser = new JsonSaxParser(json, listener);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x7D at 1:13");
+    expectedException.expectMessage("unexpected char 0x2C at 1:2");
 
     parser.parse();
   }
 
   @Test
-  public void parse_throwsISE_WhenObjectCloseMissing() throws IOException {
-    String json = "{'foo':null,";
+  public void missingLastValue() throws IOException {
+    String json = "[null,]";
 
     json = json.replace('\'', '"');
 
@@ -251,7 +180,39 @@ public class JsonSaxParserObjectTest {
     JsonSaxParser parser = new JsonSaxParser(json, listener);
 
     expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x2C at 1:12");
+    expectedException.expectMessage("unexpected char 0x5D at 1:7");
+
+    parser.parse();
+  }
+
+  @Test
+  public void missingValue() throws IOException {
+    String json = "[null,,null]";
+
+    json = json.replace('\'', '"');
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    JsonSaxParser parser = new JsonSaxParser(json, listener);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("unexpected char 0x2C at 1:7");
+
+    parser.parse();
+  }
+
+  @Test
+  public void missingValue1() throws IOException {
+    String json = "[null,,]";
+
+    json = json.replace('\'', '"');
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    JsonSaxParser parser = new JsonSaxParser(json, listener);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("unexpected char 0x2C at 1:7");
 
     parser.parse();
   }

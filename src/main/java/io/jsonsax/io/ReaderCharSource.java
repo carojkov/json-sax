@@ -1,4 +1,4 @@
-package jsonsax.io;
+package io.jsonsax.io;
 
 import java.io.IOException;
 import java.io.Reader;

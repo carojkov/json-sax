@@ -1,4 +1,4 @@
-package jsonsax;
+package io.jsonsax;
 
 import static org.hamcrest.Matchers.is;
 
@@ -12,65 +12,60 @@ import org.junit.runners.JUnit4;
 
 
 @RunWith(JUnit4.class)
-public class StringTest {
+public class AfterPropertyTest {
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
 
-  // {"foo":"foo-value"}
   @Test
-  public void test_alpha() throws IOException {
-    final String in = "{'foo':'foo-value'}";
+  public void parse_Space() throws IOException {
+    final String in = "{'foo' :'foo-value'}";
+    final String out = "{'foo':'foo-value'}";
 
     TestJsonSaxListener listener = new TestJsonSaxListener();
     JsonSaxParser parser = new JsonSaxParser(in.replace('\'', '"'), listener);
 
     parser.parse();
 
-    Assert.assertThat(listener.toString(), is(in));
+    Assert.assertThat(listener.toString(), is(out));
   }
 
-  // {"foo":"\"\""}
   @Test
-  public void test() throws IOException {
-    final String in = "{'foo':'\\\"\\\"'}";
+  public void parse_NewLine() throws IOException {
+    final String in = "{'foo'\n:'foo-value'}";
+    final String out = "{'foo':'foo-value'}";
 
     TestJsonSaxListener listener = new TestJsonSaxListener();
     JsonSaxParser parser = new JsonSaxParser(in.replace('\'', '"'), listener);
 
     parser.parse();
 
-    Assert.assertThat(listener.toString(), is(in));
+    Assert.assertThat(listener.toString(), is(out));
   }
 
   @Test
-  public void parse_ThrowsISE_onTabsInString() throws IOException {
-    //tab symbol in string
-    final String in = "['\t']";
+  public void parse_Return() throws IOException {
+    final String in = "{'foo'\r :'foo-value'}";
+    final String out = "{'foo':'foo-value'}";
 
     TestJsonSaxListener listener = new TestJsonSaxListener();
     JsonSaxParser parser = new JsonSaxParser(in.replace('\'', '"'), listener);
 
-    expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("unexpected char 0x9 at 1:3");
-
     parser.parse();
+
+    Assert.assertThat(listener.toString(), is(out));
   }
 
   @Test
-  public void parse_ThrowsISE_onIllegalEscapeChar() throws IOException {
-    //tab symbol in string
-    final String in = "['\\\"\\\\\\/\\b\\f\\n\\r\\t\\x']";
-
-    System.out.println(in);
+  public void parse_Tab() throws IOException {
+    final String in = "{'foo'\t :'foo-value'}";
+    final String out = "{'foo':'foo-value'}";
 
     TestJsonSaxListener listener = new TestJsonSaxListener();
     JsonSaxParser parser = new JsonSaxParser(in.replace('\'', '"'), listener);
 
-    expectedException.expect(IllegalStateException.class);
-    expectedException.expectMessage("illegal escape sequence at 1:19");
-
     parser.parse();
-  }
 
+    Assert.assertThat(listener.toString(), is(out));
+  }
 }

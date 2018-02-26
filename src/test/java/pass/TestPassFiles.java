@@ -2,9 +2,9 @@ package pass;
 
 import java.io.FileReader;
 import java.io.IOException;
-import jsonsax.JsonSaxParser;
-import jsonsax.TestJsonSaxListener;
-import jsonsax.io.ReaderCharSource;
+import io.jsonsax.JsonSaxParser;
+import io.jsonsax.TestJsonSaxListener;
+import io.jsonsax.io.ReaderCharSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;

@@ -1,11 +1,11 @@
-package jsonsax;
+package io.jsonsax;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Objects;
-import jsonsax.io.CharSource;
-import jsonsax.io.ReaderCharSource;
-import jsonsax.io.StringCharSource;
+import io.jsonsax.io.CharSource;
+import io.jsonsax.io.ReaderCharSource;
+import io.jsonsax.io.StringCharSource;
 
 public class JsonSaxParser {
 

@@ -1,4 +1,4 @@
-package jsonsax;
+package io.jsonsax;
 
 import static java.lang.Float.parseFloat;
 import static org.hamcrest.Matchers.is;

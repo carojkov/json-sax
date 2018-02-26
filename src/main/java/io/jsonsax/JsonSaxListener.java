@@ -1,4 +1,4 @@
-package jsonsax;
+package io.jsonsax;
 
 public interface JsonSaxListener {
 

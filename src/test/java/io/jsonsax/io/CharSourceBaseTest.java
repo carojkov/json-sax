@@ -1,4 +1,4 @@
-package jsonsax.io;
+package io.jsonsax.io;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

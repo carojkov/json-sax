@@ -1,4 +1,4 @@
-package jsonsax;
+package io.jsonsax;
 
 import static org.hamcrest.Matchers.is;
 

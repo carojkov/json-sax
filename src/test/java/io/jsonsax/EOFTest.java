@@ -1,4 +1,4 @@
-package jsonsax;
+package io.jsonsax;
 
 import java.io.IOException;
 import org.junit.Rule;

@@ -1,4 +1,4 @@
-package jsonsax;
+package io.jsonsax;
 
 /**
  * Created by alex on 2017-05-14.
