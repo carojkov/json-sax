@@ -239,4 +239,20 @@ public class JsonSaxParserObjectTest {
 
     parser.parse();
   }
+
+  @Test
+  public void parse_throwsISE_WhenObjectCloseMissing() throws IOException {
+    String json = "{'foo':null,";
+
+    json = json.replace('\'', '"');
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+
+    JsonSaxParser parser = new JsonSaxParser(json, listener);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("unexpected char 0x2C at 1:12");
+
+    parser.parse();
+  }
 }

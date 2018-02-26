@@ -177,6 +177,8 @@ public class JsonSaxParser {
 
           isFollowingComma = true;
 
+          in.pushLocation();
+
           break;
         }
         default: {
@@ -185,7 +187,9 @@ public class JsonSaxParser {
       }
     }
 
-    if (c == -1) {
+    if (isFollowingComma) {
+      unexpectedInput(',', in.popLocation());
+    } else if (c == -1) {
       throw new IllegalStateException("'}' expected at " + in.location());
     }
   }
@@ -605,11 +609,31 @@ public class JsonSaxParser {
     while ((c = in.read()) != -1) {
       switch (c) {
         case '\\': {
-          in.read();
+          in.pushLocation();
+          c = in.read();
+          switch (c) {
+            case '"':
+            case '\\':
+            case '/':
+            case 'b':
+            case 'f':
+            case 'n':
+            case 'r':
+            case 't':
+              break;
+            default: {
+              throw new IllegalStateException(
+                  String.format("illegal escape sequence at %1$s", in.popLocation()));
+            }
+          }
           break;
         }
         case '"': {
           break string;
+        }
+        case '\t': {
+          unexpectedInput(c);
+          break;
         }
         default: {
           break;

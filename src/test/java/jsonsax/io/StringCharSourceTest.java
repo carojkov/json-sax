@@ -35,10 +35,10 @@ public class StringCharSourceTest extends CharSourceBaseTest<StringCharSource> {
 
   @Test
   public void toString_() throws IOException {
-    StringCharSource charSource = new StringCharSource(value);
+    StringCharSource in = new StringCharSource(value);
 
-    charSource.read();
+    in.read();
 
-    Assert.assertThat(charSource.toString(), Matchers.is("StringCharSource[0:1]"));
+    Assert.assertThat(in.toString(), Matchers.is("StringCharSource[0:1]"));
   }
 }
