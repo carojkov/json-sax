@@ -1,11 +1,11 @@
 package io.jsonsax;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.Objects;
 import io.jsonsax.io.CharSource;
 import io.jsonsax.io.ReaderCharSource;
 import io.jsonsax.io.StringCharSource;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Objects;
 
 public class JsonSaxParser {
 
@@ -512,8 +512,11 @@ public class JsonSaxParser {
   }
 
   private void parseFalse() throws IOException {
+    in.pushLocation();
+
     if (in.read() != 'a' || in.read() != 'l' || in.read() != 's' || in.read() != 'e') {
-      throw new IllegalStateException();
+      throw new IllegalStateException(
+          String.format("literal `false` expected at %1$s", in.popLocation()));
     }
 
     int c = in.read();

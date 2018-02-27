@@ -23,7 +23,6 @@ public class TestPassFiles {
       JsonSaxParser parser = new JsonSaxParser(new ReaderCharSource(reader), listener);
       parser.setNumbersAware(false);
       parser.parse();
-
     }
   }
 
