@@ -28,10 +28,6 @@ public class JsonSaxParser {
     this.in = json;
   }
 
-  public boolean isNumbersAware() {
-    return isNumbersAware;
-  }
-
   public void setNumbersAware(boolean numbersAware) {
     isNumbersAware = numbersAware;
   }
