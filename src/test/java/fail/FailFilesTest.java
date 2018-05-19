@@ -15,7 +15,7 @@ import org.junit.runners.JUnit4;
  * Created by alex on 2017-05-15.
  */
 @RunWith(JUnit4.class)
-public class TestFailFiles {
+public class FailFilesTest {
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
