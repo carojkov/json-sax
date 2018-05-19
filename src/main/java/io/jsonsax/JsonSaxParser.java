@@ -620,6 +620,10 @@ public class JsonSaxParser {
             case 'r':
             case 't':
               break;
+            case 'u': {
+              parseUnicode();
+              break;
+            }
             default: {
               throw new IllegalStateException(
                   String.format("illegal escape sequence at %1$s", in.popLocation()));
@@ -645,5 +649,42 @@ public class JsonSaxParser {
     listener.onStringValue(in.getBuffer(), in.getMark(), len);
 
     in.reset();
+  }
+
+  private void parseUnicode() throws IOException {
+    for (int i = 0; i < 4; i++) {
+      int c = in.read();
+
+      switch (c) {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+        case 'A':
+        case 'B':
+        case 'C':
+        case 'D':
+        case 'E':
+        case 'F':
+        case 'a':
+        case 'b':
+        case 'c':
+        case 'd':
+        case 'e':
+        case 'f': {
+          break;
+        }
+        default: {
+          throw new IllegalStateException(
+              String.format("illegal character 0x%1$X at %2$s", c, in.location()));
+        }
+      }
+    }
   }
 }

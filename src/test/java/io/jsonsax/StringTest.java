@@ -1,6 +1,7 @@
 package io.jsonsax;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import org.junit.Assert;
@@ -27,7 +28,7 @@ public class StringTest {
 
     parser.parse();
 
-    Assert.assertThat(listener.toString(), is(in));
+    assertThat(listener.toString(), is(in));
   }
 
   // {"foo":"\"\""}
@@ -40,7 +41,7 @@ public class StringTest {
 
     parser.parse();
 
-    Assert.assertThat(listener.toString(), is(in));
+    assertThat(listener.toString(), is(in));
   }
 
   @Test
@@ -73,4 +74,28 @@ public class StringTest {
     parser.parse();
   }
 
+  @Test
+  public void unicode() throws IOException {
+    final String in = "['\\u0123\\u4567\\u89AB\\uCDEF\\uabcd\\uef4A']";
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+    JsonSaxParser parser = new JsonSaxParser(in.replace('\'', '"'), listener);
+
+    parser.parse();
+
+    assertThat(listener.toString(), is(in));
+  }
+
+  @Test
+  public void unicode_ThrowsISE_onIllegalHex() throws IOException {
+    final String in = "['\\uL123']";
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+    JsonSaxParser parser = new JsonSaxParser(in.replace('\'', '"'), listener);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("illegal character 0x4C at 1:5");
+
+    parser.parse();
+  }
 }
