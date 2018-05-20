@@ -10,7 +10,7 @@ import java.util.Objects;
 public class JsonSaxParser {
 
   private final CharSource in;
-  private JsonSaxListener listener;
+  private final JsonSaxListener listener;
 
   private boolean isNumbersAware = true;
 
@@ -124,7 +124,7 @@ public class JsonSaxParser {
     if (c != ']') {
       String message;
       if (c == -1) {
-        message = String.format("unexpected <EOF>");
+        message = "unexpected <EOF>";
       } else {
         message = String.format("unexpected char 0x%1$X at %2$s", c, in.location());
       }
