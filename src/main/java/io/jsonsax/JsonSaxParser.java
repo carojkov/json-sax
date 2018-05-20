@@ -390,6 +390,9 @@ public class JsonSaxParser {
     xc = c;
 
     if (c == 'e' || c == 'E') {
+      boolean mantissaValueExpected = false;
+      boolean hasMantissaValue = false;
+
       int sign = -1;
       exponent:
       while ((c = in.read()) != -1) {
@@ -401,6 +404,8 @@ public class JsonSaxParser {
             }
 
             sign = c;
+
+            mantissaValueExpected = true;
             break;
           }
           case '0':
@@ -413,6 +418,7 @@ public class JsonSaxParser {
           case '7':
           case '8':
           case '9': {
+            hasMantissaValue = true;
             break;
           }
           case '.': {
@@ -432,6 +438,11 @@ public class JsonSaxParser {
           }
         }
         xc = c;
+      }
+
+      if (mantissaValueExpected && !hasMantissaValue) {
+        throw new IllegalStateException(
+            String.format("mantissa value expected at %1$s", in.location()));
       }
     }
 

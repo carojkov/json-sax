@@ -477,4 +477,15 @@ public class StringNumberTest {
     parser.parse();
   }
 
+  @Test
+  public void _0ePlus() throws IOException {
+    JsonSaxParser parser = new JsonSaxParser("[0e+]", jsonSaxListener);
+    parser.setNumbersAware(false);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("mantissa value expected at 1:5");
+
+    parser.parse();
+  }
+
 }
