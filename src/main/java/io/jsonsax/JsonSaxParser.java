@@ -122,14 +122,7 @@ public class JsonSaxParser {
     }
 
     if (c != ']') {
-      String message;
-      if (c == -1) {
-        message = "unexpected <EOF>";
-      } else {
-        message = String.format("unexpected char 0x%1$X at %2$s", c, in.location());
-      }
-
-      throw new IllegalStateException(message);
+      throw new IllegalStateException("unexpected <EOF>");
     }
   }
 
@@ -331,7 +324,7 @@ public class JsonSaxParser {
     while ((c = in.read()) != -1) {
       switch (c) {
         case '-': {
-          if (xc != -1 || xc == '+' || xc == '-') {
+          if (xc != -1) {
             unexpectedInput(c);
           }
 
