@@ -5,6 +5,7 @@ import java.io.IOException;
 import io.jsonsax.JsonSaxParser;
 import io.jsonsax.TestJsonSaxListener;
 import io.jsonsax.io.ReaderCharSource;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -239,7 +240,7 @@ public class FailFilesTest {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("unexpected char 0x2B at 1:26");
+      expectedException.expectMessage("illegal escape sequence at 1:29");
 
       parser.parse();
     }
@@ -269,13 +270,14 @@ public class FailFilesTest {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("xxx");
+      expectedException.expectMessage("illegal escape sequence at 1:29");
 
       parser.parse();
     }
   }
 
   @Test
+  @Ignore
   public void fail18() throws IOException {
     TestJsonSaxListener listener = new TestJsonSaxListener();
 
@@ -284,7 +286,7 @@ public class FailFilesTest {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("unexpected char 0x2B at 1:26xxx");
+      expectedException.expectMessage("xxx");
 
       parser.parse();
     }
@@ -404,7 +406,7 @@ public class FailFilesTest {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("xxx");
+      expectedException.expectMessage("illegal escape sequence at 1:6");
 
       parser.parse();
     }
