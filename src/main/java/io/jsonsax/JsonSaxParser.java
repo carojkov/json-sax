@@ -604,6 +604,7 @@ public class JsonSaxParser {
 
     int c;
 
+    in.pushLocation();
     string:
     while ((c = in.read()) != -1) {
       switch (c) {
@@ -631,17 +632,23 @@ public class JsonSaxParser {
           }
           break;
         }
-        case '"': {
-          break string;
+        case '\n':
+        case '\r': {
+          unexpectedInput(c, in.lfLocation());
         }
         case '\t': {
           unexpectedInput(c);
           break;
         }
+        case '"': {
+          break string;
+        }
         default: {
           break;
         }
       }
+
+      in.pushLocation();
     }
 
     int len = in.getPosition() - in.getMark() - 1;

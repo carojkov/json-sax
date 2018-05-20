@@ -30,4 +30,6 @@ public interface CharSource {
   void pushLocation();
 
   String popLocation();
+
+  String lfLocation();
 }

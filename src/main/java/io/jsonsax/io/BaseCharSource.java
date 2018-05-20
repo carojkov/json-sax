@@ -13,6 +13,9 @@ public abstract class BaseCharSource implements CharSource {
   protected int mark = -1;
 
   //
+  protected long lfLine = 0;
+  protected long lfPos = 0;
+  //
   protected long xPosLine = -1;
   protected long xPosChar = -1;
   protected long posLine = 0;
@@ -44,6 +47,8 @@ public abstract class BaseCharSource implements CharSource {
 
     switch (c) {
       case '\n': {
+        lfLine++;
+        lfPos = posChar + 1;
         posLine++;
         posChar = 0;
         break;
@@ -103,6 +108,11 @@ public abstract class BaseCharSource implements CharSource {
   @Override
   public String popLocation() {
     return Long.toString(xPosLine + 1) + ':' + Long.toString(xPosChar);
+  }
+
+  @Override
+  public String lfLocation() {
+    return Long.toString(lfLine) + ':' + Long.toString(lfPos);
   }
 
   public final String toString() {

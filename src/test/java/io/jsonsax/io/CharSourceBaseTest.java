@@ -63,4 +63,15 @@ public abstract class CharSourceBaseTest<T extends CharSource> {
     assertThat(in.popLocation(), is("1:1"));
     assertThat(in.location(), is("1:2"));
   }
+
+  protected void lfLocation(T in) throws IOException {
+    in.read();
+    in.read();
+
+    assertThat(in.lfLocation(), is("1:2"));
+
+    in.read();
+
+    assertThat(in.lfLocation(), is("1:2"));
+  }
 }

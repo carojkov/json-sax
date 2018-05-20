@@ -98,4 +98,17 @@ public class StringTest {
 
     parser.parse();
   }
+
+  @Test
+  public void LF_ThrowsISE_WhenEncounteredInAString() throws IOException {
+    final String in = "['\n']";
+
+    TestJsonSaxListener listener = new TestJsonSaxListener();
+    JsonSaxParser parser = new JsonSaxParser(in.replace('\'', '"'), listener);
+
+    expectedException.expect(IllegalStateException.class);
+    expectedException.expectMessage("unexpected char 0xA at 1:3");
+
+    parser.parse();
+  }
 }

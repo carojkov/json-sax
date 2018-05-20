@@ -421,7 +421,7 @@ public class FailFilesTest {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("xxx");
+      expectedException.expectMessage("unexpected char 0xA at 1:7");
 
       parser.parse();
     }

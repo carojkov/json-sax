@@ -1,8 +1,9 @@
 package io.jsonsax.io;
 
+import static org.junit.Assert.assertThat;
+
 import java.io.IOException;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -39,6 +40,13 @@ public class StringCharSourceTest extends CharSourceBaseTest<StringCharSource> {
 
     in.read();
 
-    Assert.assertThat(in.toString(), Matchers.is("StringCharSource[0:1]"));
+    assertThat(in.toString(), Matchers.is("StringCharSource[0:1]"));
+  }
+
+  @Test
+  public void lfLocation() throws IOException {
+    StringCharSource in = new StringCharSource("0\n1");
+
+    super.lfLocation(in);
   }
 }

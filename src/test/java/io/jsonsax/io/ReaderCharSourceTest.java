@@ -96,6 +96,13 @@ public class ReaderCharSourceTest extends CharSourceBaseTest<ReaderCharSource> {
   }
 
   @Test
+  public void lfLocation() throws IOException {
+    ReaderCharSource in = new ReaderCharSource(new StringReader("0\n1"));
+
+    super.lfLocation(in);
+  }
+
+  @Test
   public void toString_() throws IOException {
     CharSource in = new ReaderCharSource(new StringReader(value));
 
