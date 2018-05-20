@@ -87,9 +87,7 @@ public class JsonSaxParser {
         }
         case ',': {
           if (expectValue) {
-            String message = String.format("unexpected char 0x%1$X at %2$s", c, in.location());
-
-            throw new IllegalStateException(message);
+            unexpectedInput(c, in.location());
           }
 
           break;
@@ -230,8 +228,7 @@ public class JsonSaxParser {
           break loop;
         }
         default: {
-          throw new IllegalStateException(
-              String.format("unexpected 0x%1$X at %2$s", c, in.location()));
+          unexpectedInput(c, in.location());
         }
       }
     }
@@ -689,7 +686,7 @@ public class JsonSaxParser {
         }
         default: {
           throw new IllegalStateException(
-              String.format("illegal character 0x%1$X at %2$s", c, in.location()));
+              String.format("illegal character 0x%1$02X at %2$s", c, in.location()));
         }
       }
     }

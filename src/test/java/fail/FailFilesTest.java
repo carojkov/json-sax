@@ -301,7 +301,7 @@ public class FailFilesTest {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("unexpected 0x6E at 1:18");
+      expectedException.expectMessage("unexpected char 0x6E at 1:18");
 
       parser.parse();
     }
@@ -331,7 +331,7 @@ public class FailFilesTest {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("unexpected 0x2C at 1:26");
+      expectedException.expectMessage("unexpected char 0x2C at 1:26");
 
       parser.parse();
     }
