@@ -436,7 +436,7 @@ public class FailFilesTest {
       parser.setNumbersAware(false);
 
       expectedException.expect(IllegalStateException.class);
-      expectedException.expectMessage("xxx");
+      expectedException.expectMessage("illegal escape sequence at 1:7");
 
       parser.parse();
     }

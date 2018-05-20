@@ -96,11 +96,4 @@ public class NumberTest {
 
     Assert.assertThat(jsonSaxListener.toString(), is("[-100.0]"));
   }
-
-
-  public static void main(String[] args) {
-
-    float v = parseFloat("-1e+2");
-    System.out.println("NumberTest.main " + v);
-  }
 }

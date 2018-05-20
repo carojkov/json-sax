@@ -63,8 +63,6 @@ public class StringTest {
     //tab symbol in string
     final String in = "['\\\"\\\\\\/\\b\\f\\n\\r\\t\\x']";
 
-    System.out.println(in);
-
     TestJsonSaxListener listener = new TestJsonSaxListener();
     JsonSaxParser parser = new JsonSaxParser(in.replace('\'', '"'), listener);
 
